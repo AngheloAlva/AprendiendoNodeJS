@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 // eslint-disable-next-line no-unused-vars
 import colors from 'colors'
 import { confirmMenu, inquirerMenu, listTasksToDelete, pauseMenu, readInput, showChecklist } from './helpers/inquirer.js'
