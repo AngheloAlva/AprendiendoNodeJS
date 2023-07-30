@@ -1,16 +1,36 @@
-const { userGet, userPut, userPost, userDelete, userPatch } = require('../controllers/user.controller.cjs')
 const { Router } = require('express')
+const { check } = require('express-validator')
+const { userGet, userPut, userPost, userDelete, userPatch } = require('../controllers/user.controller.cjs')
+const { validateFields } = require('../middlewares/validate-fields.cjs')
+const { isRoleValid, isEmailExist, isUserByIdExist } = require('../helpers/db-validators.cjs')
 
 const router = Router()
 
 router.get('/', userGet)
 
-router.post('/', userPost)
+router.post('/', [
+  check('name', 'Name is required').not().isEmpty(),
+  check('email', 'Email is not valid').isEmail(),
+  check('email').custom(isEmailExist),
+  check('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
+  // check('role', 'Role is not valid').isIn(['ADMIN_ROLE', 'USER_ROLE']),
+  check('role').custom(isRoleValid),
+  validateFields
+], userPost)
 
-router.put('/:id', userPut)
+router.put('/:id', [
+  check('id', 'ID is not valid').isMongoId(),
+  check('id', 'ID does not exist').custom(isUserByIdExist),
+  check('role').custom(isRoleValid),
+  validateFields
+], userPut)
 
 router.patch('/', userPatch)
 
-router.delete('/', userDelete)
+router.delete('/:id', [
+  check('id', 'ID is not valid').isMongoId(),
+  check('id', 'ID does not exist').custom(isUserByIdExist),
+  validateFields
+], userDelete)
 
 module.exports = router
