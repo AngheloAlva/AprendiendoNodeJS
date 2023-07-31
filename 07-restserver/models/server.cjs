@@ -6,6 +6,7 @@ class Server {
   constructor () {
     this.PORT = process.env.PORT // 3000
     this.usersPath = '/api/users'
+    this.authPath = '/api/auth'
     this.app = express()
     this.connectDB() // Database
     this.middlewares() // Middlewares
@@ -17,6 +18,7 @@ class Server {
   }
 
   routes () {
+    this.app.use(this.authPath, require('../routes/auth.routes.cjs'))
     this.app.use(this.usersPath, require('../routes/user.routes.cjs'))
   }
 
