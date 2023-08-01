@@ -52,11 +52,33 @@ const googleSingIn = async (req, res = response) => {
 
   try {
     const { name, picture, email } = await GoogleVerify(id_token)
-    console.log(name, picture, email)
+
+    let user = await User.findOne({ email })
+    if (!user) {
+      const data = {
+        name,
+        email,
+        password: ':P',
+        picture,
+        google: true,
+        role: 'USER_ROLE'
+      }
+
+      user = new User(data)
+      await user.save()
+    }
+
+    if (!user.status) {
+      return res.status(401).json({
+        msg: 'User blocked - contact with admin'
+      })
+    }
+
+    const token = await generateJWT(user.id)
 
     res.json({
-      msg: 'Google SingIn',
-      id_token
+      user,
+      token
     })
   } catch (error) {
     console.log(error)
