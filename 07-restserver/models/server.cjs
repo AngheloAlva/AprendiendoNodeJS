@@ -4,10 +4,15 @@ const { dbConnection } = require('../database/config.db.cjs')
 
 class Server {
   constructor () {
+    this.app = express()
     this.PORT = process.env.PORT // 3000
+
     this.usersPath = '/api/users'
     this.authPath = '/api/auth'
-    this.app = express()
+    this.categoriesPath = '/api/categories'
+    this.productsPath = '/api/products'
+    this.searchPath = '/api/search'
+
     this.connectDB() // Database
     this.middlewares() // Middlewares
     this.routes() // Routes
@@ -19,7 +24,10 @@ class Server {
 
   routes () {
     this.app.use(this.authPath, require('../routes/auth.routes.cjs'))
+    this.app.use(this.categoriesPath, require('../routes/categories.routes.cjs'))
+    this.app.use(this.productsPath, require('../routes/products.routes.cjs'))
     this.app.use(this.usersPath, require('../routes/user.routes.cjs'))
+    this.app.use(this.searchPath, require('../routes/search.routes.cjs'))
   }
 
   middlewares () {
