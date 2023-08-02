@@ -12,6 +12,7 @@ class Server {
     this.categoriesPath = '/api/categories'
     this.productsPath = '/api/products'
     this.searchPath = '/api/search'
+    this.uploadsPath = '/api/uploads'
 
     this.connectDB() // Database
     this.middlewares() // Middlewares
@@ -26,6 +27,7 @@ class Server {
     this.app.use(this.authPath, require('../routes/auth.routes.cjs'))
     this.app.use(this.categoriesPath, require('../routes/categories.routes.cjs'))
     this.app.use(this.productsPath, require('../routes/products.routes.cjs'))
+    this.app.use(this.uploadsPath, require('../routes/uploads.routes.cjs'))
     this.app.use(this.usersPath, require('../routes/user.routes.cjs'))
     this.app.use(this.searchPath, require('../routes/search.routes.cjs'))
   }
