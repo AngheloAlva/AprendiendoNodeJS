@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const { dbConnection } = require('../database/config.db.cjs')
+const fileUpload = require('express-fileupload')
 
 class Server {
   constructor () {
@@ -36,6 +37,10 @@ class Server {
     this.app.use(cors()) // CORS
     this.app.use(express.json()) // Parse JSON
     this.app.use(express.static('public')) // Public directory
+    this.app.use(fileUpload({
+      useTempFiles: true,
+      tempFileDir: '/tmp/'
+    })) // File upload - Express fileupload
   }
 
   listen () {
