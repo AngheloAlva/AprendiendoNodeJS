@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid')
 const path = require('path')
 
-const uploadArchive = async (files, validExtensions = ['png', 'jpg', 'jpeg', 'gif'], folder = '') => {
+const uploadArchive = (files, validExtensions = ['png', 'jpg', 'jpeg', 'gif'], folder = '') => {
   return new Promise((resolve, reject) => {
     const { archive } = files
     const newName = archive.name.split('.')
