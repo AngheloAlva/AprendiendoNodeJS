@@ -14,11 +14,18 @@ const loadArchive = async (req = request, res = response) => {
     })
   }
 
-  const name = await uploadArchive(req.files)
+  try {
+    // const name = await uploadArchive(req.files, ['txt', 'md'], 'textos')
+    const name = await uploadArchive(req.files, undefined, 'images')
 
-  res.json({
-    name
-  })
+    return res.json({
+      name
+    })
+  } catch (msg) {
+    return res.status(400).json({
+      msg
+    })
+  }
 }
 
 module.exports = {

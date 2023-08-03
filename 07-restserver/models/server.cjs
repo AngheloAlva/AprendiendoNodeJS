@@ -39,7 +39,8 @@ class Server {
     this.app.use(express.static('public')) // Public directory
     this.app.use(fileUpload({
       useTempFiles: true,
-      tempFileDir: '/tmp/'
+      tempFileDir: '/tmp/',
+      createParentPath: true
     })) // File upload - Express fileupload
   }
 
