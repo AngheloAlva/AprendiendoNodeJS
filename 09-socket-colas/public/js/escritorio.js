@@ -33,6 +33,8 @@ socket.on('pending-tickets', (pendingTickets) => {
     lblPendings.style.display = ''
     lblPendings.innerText = pendingTickets
   }
+
+  console.log(pendingTickets)
 })
 
 btnAttend.addEventListener('click', () => {
